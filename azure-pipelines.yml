@@ -16,13 +16,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: AzureWebApp@1 # Add this at the end of your file
-  inputs:
-    azureSubscription: azureServiceCreation
-    appType: webAppLinux
-    appName: $(appName)
-    resourceGroupName: pipeline
-    package: $(System.ArtifactsDirectory)/**/*.zip
+
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK'
@@ -57,4 +51,11 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
+- task: AzureWebApp@1 # Add this at the end of your file
+  inputs:
+    azureSubscription: azureServiceCreation
+    appType: webAppLinux
+    appName: $(appName)
+    resourceGroupName: pipeline
+    package: $(System.ArtifactsDirectory)/**/*.zip
 
