@@ -10,8 +10,19 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+ # Azure service connection established during pipeline creation
+  azureSubscription: 196840ce-5989-4cce-99c6-a7933469624e
+  appName: pipelines_dotnet_core
   buildConfiguration: 'Release'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: AzureWebApp@1 # Add this at the end of your file
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appType: webAppLinux
+    appName: $(appName)
+    resourceGroupName: Rg_pipelines_dotnet_core
+    package: $(System.ArtifactsDirectory)/**/*.zip
