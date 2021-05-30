@@ -21,7 +21,7 @@ steps:
 
 - task: AzureWebApp@1 # Add this at the end of your file
   inputs:
-    azureSubscription: $(azureSubscription)
+    azureSubscription: azureServiceCreation
     appType: webAppLinux
     appName: $(appName)
     resourceGroupName: Rg_pipelines_dotnet_core
